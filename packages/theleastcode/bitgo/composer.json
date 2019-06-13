@@ -1,0 +1,13 @@
+{
+    "name": "theleastcode/bitgo",
+    "description": "a laravel php package for bitgo api",
+    "type": "metapackage",
+    "authors": [
+        {
+            "name": "afolabi tope",
+            "email": "afolabitope@ymail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
