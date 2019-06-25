@@ -183,7 +183,7 @@ class BitgoHttpConnection
 
         //Throw Exception if Retries and Certificates doenst work
         if (curl_errno($ch)) {
-            $ex = new PayPalConnectionException(
+            $ex = new BitgoConnectionException(
                 $this->httpConfig->getUrl(),
                 curl_error($ch),
                 curl_errno($ch)
@@ -204,7 +204,7 @@ class BitgoHttpConnection
 
         //More Exceptions based on HttpStatus Code
         if ($httpStatus < 200 || $httpStatus >= 300) {
-            $ex = new PayPalConnectionException(
+            $ex = new BitgoConnectionException(
                 $this->httpConfig->getUrl(),
                 "Got Http response code $httpStatus when accessing {$this->httpConfig->getUrl()}.",
                 $httpStatus

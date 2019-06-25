@@ -3,14 +3,14 @@
 namespace Core;
 
 use Auth\OAuthTokenCredential;
-use Exception\PayPalInvalidCredentialException;
+use Exception\BitgoInvalidCredentialException;
 
 /**
  * Class BitgoCredentialManager
  *
  * BitgoCredentialManager holds all the credential information in one place.
  *
- * @package PayPal\Core
+ * @package Core
  */
 class BitgoCredentialManager
 {
@@ -139,7 +139,7 @@ class BitgoCredentialManager
      *
      * @param null $userId
      * @return OAuthTokenCredential
-     * @throws PayPalInvalidCredentialException
+     * @throws BitgoInvalidCredentialException
      */
     public function getCredentialObject($userId = null)
     {
@@ -150,7 +150,7 @@ class BitgoCredentialManager
         }
 
         if (empty($credObj)) {
-            throw new PayPalInvalidCredentialException("Credential not found for " .  ($userId ? $userId : " default user") .
+            throw new BitgoInvalidCredentialException("Credential not found for " .  ($userId ? $userId : " default user") .
             ". Please make sure your configuration/APIContext has credential information");
         }
         return $credObj;

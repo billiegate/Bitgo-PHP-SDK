@@ -23,7 +23,7 @@ class BitgoHttpConfig
         CURLOPT_CONNECTTIMEOUT => 10,
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_TIMEOUT => 60,    // maximum number of seconds to allow cURL functions to execute
-        CURLOPT_USERAGENT => 'bitgo',
+        CURLOPT_USERAGENT => 'HTTPie/1.0.0',
         CURLOPT_HTTPHEADER => array(),
         CURLOPT_SSL_VERIFYHOST => 2,
         CURLOPT_SSL_VERIFYPEER => 1,

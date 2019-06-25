@@ -1,12 +1,12 @@
 <?php
 
-namespace PayPal\Core;
+namespace Core;
 
 /**
  * Class BitgoConstants
- * Placeholder for Paypal Constants
+ * Placeholder for bitgo Constants
  *
- * @package PayPal\Core
+ * @package Core
  */
 class BitgoConstants
 {
@@ -19,9 +19,9 @@ class BitgoConstants
      */
     const APPROVAL_URL = 'approval_url';
 
-    const REST_SANDBOX_ENDPOINT = "https://api.sandbox.paypal.com/";
-    const OPENID_REDIRECT_SANDBOX_URL = "https://www.sandbox.paypal.com";
+    const REST_TEST_ENDPOINT = "https://test.bitgo.com/api/v2";
+    const OPENID_REDIRECT_TEST_URL = "https://www.test.bitgo.com";
 
-    const REST_LIVE_ENDPOINT = "https://api.paypal.com/";
-    const OPENID_REDIRECT_LIVE_URL = "https://www.paypal.com";
+    const REST_LIVE_ENDPOINT = "https://bitgo.com/api/v2";
+    const OPENID_REDIRECT_LIVE_URL = "https://www.bitgo.com";
 }
