@@ -5,9 +5,10 @@
 
 namespace Handler;
 
+use Auth\OAuthTokenCredential;
 use Common\BitgoUserAgent;
 use Core\BitgoConstants;
-//use Core\BitgoCredentialManager;
+use Core\BitgoCredentialManager;
 use Core\BitgoHttpConfig;
 use Exception\BitgoConfigurationException;
 use Exception\BitgoInvalidCredentialException;
@@ -46,15 +47,22 @@ class RestHandler implements IBitgoHandler
      */
     public function handle($httpConfig, $request, $options)
     {
+        $credential = $this->apiContext->getCredential();
         $config = $this->apiContext->getConfig();
-        $credential = $config['accessToken'];
 
         if ($credential == null) {
             // Try picking credentials from the config file
-            
+            $credMgr = BitgoCredentialManager::getInstance($config);
+            $credValues = $credMgr->getCredentialObject();
+
+            if (!is_array($credValues)) {
+                throw new BitgoMissingCredentialException("Empty or invalid credentials passed");
+            }
+
+            $credential = new OAuthTokenCredential($credValues['clientId'], $credValues['clientSecret']);
         }
 
-        if ($credential == null) {
+        if ($credential == null || !($credential instanceof OAuthTokenCredential)) {
             throw new BitgoInvalidCredentialException("Invalid credentials passed");
         }
 
@@ -70,8 +78,8 @@ class RestHandler implements IBitgoHandler
             $httpConfig->addHeader("User-Agent", BitgoUserAgent::getValue(BitgoConstants::SDK_NAME, BitgoConstants::SDK_VERSION));
         }
 
-        if (!is_null($credential) && is_null($httpConfig->getHeader('Authorization'))) {
-            $httpConfig->addHeader('Authorization', "Bearer " . $credential, false);
+        if (!is_null($credential) && $credential instanceof OAuthTokenCredential && is_null($httpConfig->getHeader('Authorization'))) {
+            $httpConfig->addHeader('Authorization', "Bearer " . $credential->getAccessToken($config), false);
         }
 
         if (($httpConfig->getMethod() == 'POST' || $httpConfig->getMethod() == 'PUT') && !is_null($this->apiContext->getRequestId())) {
