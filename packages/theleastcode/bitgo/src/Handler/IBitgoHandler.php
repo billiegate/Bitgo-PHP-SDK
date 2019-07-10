@@ -1,17 +1,17 @@
 <?php
 
-namespace PayPal\Handler;
+namespace Handler;
 
 /**
- * Interface IPayPalHandler
+ * Interface IBitgoHandler
  *
- * @package PayPal\Handler
+ * @package Handler
  */
-interface IPayPalHandler
+interface IBitgoHandler
 {
     /**
      *
-     * @param \Paypal\Core\PayPalHttpConfig $httpConfig
+     * @param \Core\BitgoHttpConfig $httpConfig
      * @param string $request
      * @param mixed $options
      * @return mixed

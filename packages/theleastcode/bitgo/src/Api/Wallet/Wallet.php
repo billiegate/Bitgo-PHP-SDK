@@ -1,6 +1,6 @@
 <?php
 
-namespace Api\Address;
+namespace Api;
 
 use Common\BitgoResourceModel;
 use Core\BitgoConstants;
@@ -12,187 +12,25 @@ use Rest\ApiContext;
  *
  * Lets you create, process and manage payments.
  *
- * @package Api\Address
+ * @package Api
  * 
- * @property string id
- * @property string address
- * @property int chain
- * @property string index
- * @property string coin
- * @property int lastNonce
- * @property string coinSpecific
  * @property string label
- * @property string addressType
- * @property Api\Wallet\Wallet wallet
- * @property boolean lowPriority
- * @property int|string gasPrice
+ * @property string passphrase
+ * @property string userKey
+ * @property string backupXpub
+ * @property string backupXpubProvider
+ * @property string enterprise
+ * @property boolean disableTransactionNotifications
+ * @property string passcodeEncryptionCode
+ * @property string coldDerivationSeed
+ * @property integer gasPrice
+ * @property boolean disableKRSEmail
  */
 
 class Address Extends BitgoResourceModel
 {
     /**
-     * Identifier of the address resource created.
-     *
-     * @param string $id
-     * 
-     * @return $this
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-        return $this;
-    }
-
-    /**
-     * Identifier of the address resource created.
-     *
-     * @return string
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Address
-     *
-     * @param string $address
-     * 
-     * @return $this
-     */
-    public function setAddress($address)
-    {
-        $this->address = $address;
-        return $this;
-    }
-
-    /**
-     * Address.
-     *
-     * @return string
-     */
-    public function getAddress()
-    {
-        return $this->address;
-    }
-    
-
-    /**
-     * Chains
-     * Acceptable Values:0, 1, 10, 11, 20, 21
-     * 
-     * @param string $chain
-     * 
-     * @return $this
-     */
-    public function setChain($chain)
-    {
-        $this->chain = $chain;
-        return $this;
-    }
-
-    /**
-     * Chains
-     * 
-     * @return string
-     */
-    public function getChain()
-    {
-        return $this->chain;
-    }
-
-    /**
-     * Index.
-     * @param int $index
-     * 
-     * @return $this
-     */
-    public function setIndex($index)
-    {
-        $this->index = $index;
-        return $this;
-    }
-
-    /**
-     * Index.
-     * @return int
-     */
-    public function getIndex()
-    {
-        return $this->index;
-    }
-
-    /**
-     * Coin
-     * 
-     * @param string $coin
-     * 
-     * @return $this
-     */
-    public function setCoin($coin)
-    {
-        $this->coin = $coin;
-        return $this;
-    }
-
-    /**
-     * Coin
-     * 
-     * @return string
-     */
-    public function getCoin()
-    {
-        return $this->coin;
-    }
-
-    /**
-     * Last Nonce of the block
-     *
-     * @param int $lastNonce
-     * 
-     * @return $this
-     */
-    public function setLastNonce($lastNonce)
-    {
-        $this->lastNonce = $lastNonce;
-        return $this;
-    }
-
-    /**
-     * Last Nonce of the block
-     *
-     * @return int
-     */
-    public function getLastNonce()
-    {
-        return $this->lastNonce;
-    }
-
-    /**
-     * Wallet this address belongs to
-     *
-     * @param string Api\Wallet\Wallet $wallet
-     * 
-     * @return $this
-     */
-    public function setWallet($wallet)
-    {
-        $this->wallet = $wallet;
-        return $this;
-    }
-
-    /**
-     * Wallet this address belongs to
-     *
-     * @return string Api\Wallet\Wallet
-     */
-    public function getWallet()
-    {
-        return $this->wallet;
-    }
-
-    /**
-     * Address label
+     * Identifier of the wallet resource created.
      *
      * @param string $label
      * 
@@ -205,7 +43,7 @@ class Address Extends BitgoResourceModel
     }
 
     /**
-     * Address label
+     * return set label
      *
      * @return string
      */
@@ -215,58 +53,193 @@ class Address Extends BitgoResourceModel
     }
 
     /**
-     * Address Type
-     * Acceptable values "p2sh", "p2sh-p2wsh", "p2wsh"
-     * 
-     * @param string $addressType
+     * Passphrase to be used to encrypt the user key on the wallet.
+     *
+     * @param string $passphrase
      * 
      * @return $this
      */
-    public function setAddressType($addressType)
+    public function setPassphrase($passphrase)
     {
-        $this->addressType = $addressType;
+        $this->passphrase = $passphrase;
         return $this;
     }
 
     /**
-     * Address Type
+     * passphrase.
      *
      * @return string
      */
-    public function getAddressType()
+    public function getPassphrase()
     {
-        return $this->addressType;
+        return $this->passphrase;
     }
+    
 
     /**
-     * Whether the deployment of the address forwarder contract 
-     * should use a low priority fee key (ETH only)
+     * User provided public key
      * 
-     * @param boolean $lowPriority
+     * @param string $userKey
      * 
      * @return $this
      */
-    public function setLowPriority($lowPriority)
+    public function setUserKey($userKey)
     {
-        $this->lowPriority = $lowPriority;
+        $this->userKey = $userKey;
         return $this;
     }
 
     /**
-     * Address foworder selected
-     *
-     * @return boolean
+     * user Key
+     * 
+     * @return string
      */
-    public function getLowPriority()
+    public function getUserKey()
     {
-        return $this->lowPriority ? $this->lowPriority : false;
+        return $this->userKey;
     }
 
     /**
-     * Explicit gas price to use when deploying the forwarder contract (ETH only). 
-     * If not given, defaults to the current estimated network gas price.
+     * User provided backup public key.
+     * @param string $backupXpub
      * 
-     * @param int|string $gasPrice
+     * @return $this
+     */
+    public function setBackupXpub($backupXpub)
+    {
+        $this->backupXpub = $backupXpub;
+        return $this;
+    }
+
+    /**
+     * backupXpub.
+     * @return string
+     */
+    public function getBackupXpub()
+    {
+        return $this->backupXpub;
+    }
+
+    /**
+     * Value:"keyternal"
+     * Optional key recovery service to provide and store the backup key
+     * 
+     * @param string $backupXpubProvider
+     * 
+     * @return $this
+     */
+    public function setBackupXpubProvider($backupXpubProvider)
+    {
+        $this->backupXpubProvider = $backupXpubProvider;
+        return $this;
+    }
+
+    /**
+     * backupXpubProvider
+     * 
+     * @return string
+     */
+    public function getBackupXpubProvider()
+    {
+        return $this->backupXpubProvider;
+    }
+
+    /**
+     * Enteprise
+     *
+     * @param int $enterprise
+     * 
+     * @return $this
+     */
+    public function setEnterprise($enterprise)
+    {
+        $this->enterprise = $enterprise;
+        return $this;
+    }
+
+    /**
+     * enterprise
+     *
+     * @return int
+     */
+    public function getEnterprise()
+    {
+        return $this->enterprise;
+    }
+
+    /**
+     * Flag for disabling wallet transaction notifications
+     *
+     * @param boolean $disableTransactionNotifications
+     * 
+     * @return $this
+     */
+    public function setDisableTransactionNotifications($disableTransactionNotifications)
+    {
+        $this->disableTransactionNotifications = $disableTransactionNotifications;
+        return $this;
+    }
+
+    /**
+     * disableTransactionNotifications
+     *
+     * @return string
+     */
+    public function getDisableTransactionNotifications()
+    {
+        return $this->disableTransactionNotifications;
+    }
+
+    /**
+     * The passphrase used for decrypting the encrypted user 
+     * private key during wallet recovery
+     *
+     * @param string $passcodeEncryptionCode
+     * 
+     * @return $this
+     */
+    public function setPasscodeEncryptionCode($passcodeEncryptionCode)
+    {
+        $this->passcodeEncryptionCode = $passcodeEncryptionCode;
+        return $this;
+    }
+
+    /**
+     * Passcode EncryptionCode
+     *
+     * @return string
+     */
+    public function getPasscodeEncryptionCode()
+    {
+        return $this->passcodeEncryptionCode;
+    }
+
+    /**
+     * Seed used to derive an extended user key for a cold wallet
+     * 
+     * @param string $coldDerivationSeed
+     * 
+     * @return $this
+     */
+    public function setColdDerivationSeed($coldDerivationSeed)
+    {
+        $this->coldDerivationSeed = $coldDerivationSeed;
+        return $this;
+    }
+
+    /**
+     *
+     * @return string
+     */
+    public function getColdDerivationSeed()
+    {
+        return $this->coldDerivationSeed;
+    }
+
+    /**
+     * Gas price to use when deploying an Ethereum wallet
+     * 
+     * @param integer $gasPrice
      * 
      * @return $this
      */
@@ -277,9 +250,8 @@ class Address Extends BitgoResourceModel
     }
 
     /**
-     * Gas price provided
      *
-     * @return int|string
+     * @return integer
      */
     public function getGasPrice()
     {
@@ -287,39 +259,49 @@ class Address Extends BitgoResourceModel
     }
 
     /**
-     * Append FailedTransactions to the list.
-     * @deprecated Not publicly available
-     * @param \PayPal\Api\Error $error
+     * Flag for preventing KRS from sending email after creating backup key
+     * 
+     * @param boolean $disableKRSEmail
+     * 
      * @return $this
      */
-    public function addFailedTransaction($error)
+    public function setDisableKRSEmail($disableKRSEmail)
     {
-        if (!$this->getFailedTransactions()) {
-            return $this->setFailedTransactions(array($error));
-        } else {
-            return $this->setFailedTransactions(
-                array_merge($this->getFailedTransactions(), array($error))
-            );
-        }
+        $this->disableKRSEmail = $disableKRSEmail;
+        return $this;
     }
 
     /**
-     * Remove FailedTransactions from the list.
-     * @deprecated Not publicly available
-     * @param \PayPal\Api\Error $error
-     * @return $this
+     * Gas price provided
+     *
+     * @return boolean
      */
-    public function removeFailedTransaction($error)
+    public function getDisableKRSEmail()
     {
-        return $this->setFailedTransactions(
-            array_diff($this->getFailedTransactions(), array($error))
-        );
+        return $this->disableKRSEmail;
     }
 	
     /**
-     * This API call is used to create a new receive address for your wallet. 
-     * You may choose to call this API whenever a deposit is made. 
-     * The BitGo API supports millions of addresses.
+     * This API call creates a new wallet. Under the hood, the SDK (or BitGo Express) does the following:
+     * 1. Creates the user keychain locally on the machine, and encrypts it with the provided passphrase (skipped if userKey is provided).
+     * 2. Creates the backup keychain locally on the machine.
+     * 3. Uploads the encrypted user keychain and public backup keychain.
+     * 4. Creates the BitGo key (and the backup key if backupXpubProvider is set) on the service.
+     * 5. Creates the wallet on BitGo with the 3 public keys above.
+     * 
+     * Ethereum wallets can only be created under an enterprise. Pass in the id of the enterprise to 
+     * associate the wallet with. Your enterprise id can be seen by clicking on the “Manage 
+     * Organization” link on the enterprise dropdown. Each enterprise has a fee address 
+     * which will be used to pay for transaction fees on all Ethereum wallets in that 
+     * enterprise. The fee address is displayed in the dashboard of the website, 
+     * please fund it before creating a wallet.
+     * 
+     * You cannot generate a wallet by passing in an ERC20 token as the coin. ERC20 tokens share 
+     * Ethereum wallets and it is not possible to create a wallet specific to one token. 
+     * Please see Coin-Specific Implementation for details.
+     * 
+     * This endpoint should be called through BitGo Express if used without the SDK, such as when 
+     * using cURL.
      *
      * @param ApiContext $apiContext is the APIContext for this call. It can be used to pass dynamic configuration and credentials.
      * @param BitgoRestCall $restCall is the Rest Call Service that is used to make rest calls

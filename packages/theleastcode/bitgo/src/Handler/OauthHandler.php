@@ -3,31 +3,31 @@
  * API handler for OAuth Token Request REST API calls
  */
 
-namespace PayPal\Handler;
+namespace Handler;
 
-use PayPal\Common\PayPalUserAgent;
-use PayPal\Core\PayPalConstants;
-use PayPal\Core\PayPalHttpConfig;
-use PayPal\Exception\PayPalConfigurationException;
-use PayPal\Exception\PayPalInvalidCredentialException;
-use PayPal\Exception\PayPalMissingCredentialException;
+use Common\BitgoUserAgent;
+use Core\BitgoConstants;
+use Core\BitgoHttpConfig;
+use Exception\BitgoConfigurationException;
+use Exception\BitgoInvalidCredentialException;
+use Exception\BitgoMissingCredentialException;
 
 /**
  * Class OauthHandler
  */
-class OauthHandler implements IPayPalHandler
+class OauthHandler implements IBitgoHandler
 {
     /**
      * Private Variable
      *
-     * @var \Paypal\Rest\ApiContext $apiContext
+     * @var Rest\ApiContext $apiContext
      */
     private $apiContext;
 
     /**
      * Construct
      *
-     * @param \Paypal\Rest\ApiContext $apiContext
+     * @param Rest\ApiContext $apiContext
      */
     public function __construct($apiContext)
     {
@@ -35,13 +35,13 @@ class OauthHandler implements IPayPalHandler
     }
 
     /**
-     * @param PayPalHttpConfig $httpConfig
+     * @param BitgoHttpConfig $httpConfig
      * @param string                    $request
      * @param mixed                     $options
      * @return mixed|void
-     * @throws PayPalConfigurationException
-     * @throws PayPalInvalidCredentialException
-     * @throws PayPalMissingCredentialException
+     * @throws BitgoConfigurationException
+     * @throws BitgoInvalidCredentialException
+     * @throws BitgoMissingCredentialException
      */
     public function handle($httpConfig, $request, $options)
     {
@@ -53,7 +53,7 @@ class OauthHandler implements IPayPalHandler
         );
 
         $headers = array(
-            "User-Agent"    => PayPalUserAgent::getValue(PayPalConstants::SDK_NAME, PayPalConstants::SDK_VERSION),
+            "User-Agent"    => BitgoUserAgent::getValue(BitgoConstants::SDK_NAME, BitgoConstants::SDK_VERSION),
             "Authorization" => "Basic " . base64_encode($options['clientId'] . ":" . $options['clientSecret']),
             "Accept"        => "*/*"
         );
@@ -71,8 +71,8 @@ class OauthHandler implements IPayPalHandler
      *
      * @param array $config
      *
-     * @return PayPalHttpConfig
-     * @throws \PayPal\Exception\PayPalConfigurationException
+     * @return BitgoHttpConfig
+     * @throws Exception\BitgoConfigurationException
      */
     private static function _getEndpoint($config)
     {
@@ -82,18 +82,18 @@ class OauthHandler implements IPayPalHandler
             $baseEndpoint = $config['service.EndPoint'];
         } elseif (isset($config['mode'])) {
             switch (strtoupper($config['mode'])) {
-                case 'SANDBOX':
-                    $baseEndpoint = PayPalConstants::REST_SANDBOX_ENDPOINT;
+                case 'TEST':
+                    $baseEndpoint = BitgoConstants::REST_TEST_ENDPOINT;
                     break;
                 case 'LIVE':
-                    $baseEndpoint = PayPalConstants::REST_LIVE_ENDPOINT;
+                    $baseEndpoint = BitgoConstants::REST_LIVE_ENDPOINT;
                     break;
                 default:
-                    throw new PayPalConfigurationException('The mode config parameter must be set to either sandbox/live');
+                    throw new BitgoConfigurationException('The mode config parameter must be set to either test/live');
             }
         } else {
-            // Defaulting to Sandbox
-            $baseEndpoint = PayPalConstants::REST_SANDBOX_ENDPOINT;
+            // Defaulting to test
+            $baseEndpoint = BitgoConstants::REST_TEST_ENDPOINT;
         }
 
         $baseEndpoint = rtrim(trim($baseEndpoint), '/') . "/v1/oauth2/token";

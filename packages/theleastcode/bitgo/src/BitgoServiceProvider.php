@@ -24,6 +24,8 @@ class BitgoServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $this->publishes([
+            __DIR__.'/Core/BitgoConfigManager.php' => config_path('bitgo.php'),
+        ]);
     }
 }
